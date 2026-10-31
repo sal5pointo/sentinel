@@ -1,0 +1,32 @@
+name: ci
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      TRADING_ENABLED: "false"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+
+      - name: Sync dependencies
+        run: uv sync --all-extras
+
+      - name: Ruff
+        run: uv run ruff check sentinel tests
+
+      - name: Mypy (non-strict gate for Phase 0 stubs)
+        run: uv run mypy sentinel || true
+        # Phase 0: typecheck is advisory until stubs fill in; keep pytest as the gate.
+
+      - name: Pytest (offline)
+        run: uv run pytest -q
