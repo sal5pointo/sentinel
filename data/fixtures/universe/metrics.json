@@ -1,0 +1,192 @@
+{
+  "AAPL": {
+    "price": 228.5,
+    "adv_usd": 12500000000,
+    "listing_date": "1980-12-12"
+  },
+  "MSFT": {
+    "price": 430.2,
+    "adv_usd": 9800000000,
+    "listing_date": "1986-03-13"
+  },
+  "AMZN": {
+    "price": 186.4,
+    "adv_usd": 8200000000,
+    "listing_date": "1997-05-15"
+  },
+  "GOOGL": {
+    "price": 165.1,
+    "adv_usd": 5600000000,
+    "listing_date": "2004-08-19"
+  },
+  "META": {
+    "price": 572.3,
+    "adv_usd": 7100000000,
+    "listing_date": "2012-05-18"
+  },
+  "NVDA": {
+    "price": 138.7,
+    "adv_usd": 28000000000,
+    "listing_date": "1999-01-22"
+  },
+  "TSLA": {
+    "price": 248.9,
+    "adv_usd": 14000000000,
+    "listing_date": "2010-06-29"
+  },
+  "AVGO": {
+    "price": 172.4,
+    "adv_usd": 4200000000,
+    "listing_date": "2009-08-06"
+  },
+  "COST": {
+    "price": 890.0,
+    "adv_usd": 1800000000,
+    "listing_date": "1985-12-05"
+  },
+  "AMD": {
+    "price": 158.2,
+    "adv_usd": 3500000000,
+    "listing_date": "1972-09-27"
+  },
+  "INTC": {
+    "price": 23.4,
+    "adv_usd": 1200000000,
+    "listing_date": "1971-10-13"
+  },
+  "QCOM": {
+    "price": 172.0,
+    "adv_usd": 1100000000,
+    "listing_date": "1991-12-13"
+  },
+  "ADBE": {
+    "price": 510.0,
+    "adv_usd": 1400000000,
+    "listing_date": "1986-08-20"
+  },
+  "NFLX": {
+    "price": 720.0,
+    "adv_usd": 2200000000,
+    "listing_date": "2002-05-23"
+  },
+  "CSCO": {
+    "price": 56.0,
+    "adv_usd": 900000000,
+    "listing_date": "1990-02-16"
+  },
+  "PEP": {
+    "price": 172.0,
+    "adv_usd": 800000000,
+    "listing_date": "1972-06-12"
+  },
+  "SBUX": {
+    "price": 96.0,
+    "adv_usd": 700000000,
+    "listing_date": "1992-06-26"
+  },
+  "ISRG": {
+    "price": 480.0,
+    "adv_usd": 650000000,
+    "listing_date": "2000-06-13"
+  },
+  "PANW": {
+    "price": 340.0,
+    "adv_usd": 900000000,
+    "listing_date": "2012-07-20"
+  },
+  "CRWD": {
+    "price": 290.0,
+    "adv_usd": 1000000000,
+    "listing_date": "2019-06-12"
+  },
+  "JPM": {
+    "price": 210.0,
+    "adv_usd": 2500000000,
+    "listing_date": "1969-03-05"
+  },
+  "XOM": {
+    "price": 118.0,
+    "adv_usd": 1900000000,
+    "listing_date": "1978-01-13"
+  },
+  "UNH": {
+    "price": 560.0,
+    "adv_usd": 2100000000,
+    "listing_date": "1990-10-17"
+  },
+  "V": {
+    "price": 280.0,
+    "adv_usd": 2000000000,
+    "listing_date": "2008-03-19"
+  },
+  "MA": {
+    "price": 480.0,
+    "adv_usd": 1700000000,
+    "listing_date": "2006-05-25"
+  },
+  "JNJ": {
+    "price": 160.0,
+    "adv_usd": 1200000000,
+    "listing_date": "1944-09-25"
+  },
+  "WMT": {
+    "price": 80.0,
+    "adv_usd": 1500000000,
+    "listing_date": "1972-08-25"
+  },
+  "PG": {
+    "price": 170.0,
+    "adv_usd": 1000000000,
+    "listing_date": "1978-01-13"
+  },
+  "HD": {
+    "price": 390.0,
+    "adv_usd": 1300000000,
+    "listing_date": "1981-09-22"
+  },
+  "BAC": {
+    "price": 42.0,
+    "adv_usd": 2200000000,
+    "listing_date": "1978-01-13"
+  },
+  "BRK.B": {
+    "price": 450.0,
+    "adv_usd": 1600000000,
+    "listing_date": "1996-05-09"
+  },
+  "QQQ": {
+    "price": 480.0,
+    "adv_usd": 20000000000,
+    "listing_date": "1999-03-10"
+  },
+  "TQQQ": {
+    "price": 70.0,
+    "adv_usd": 5000000000,
+    "listing_date": "2010-02-09"
+  },
+  "SPY": {
+    "price": 570.0,
+    "adv_usd": 40000000000,
+    "listing_date": "1993-01-29"
+  },
+  "ILLIQ": {
+    "price": 12.0,
+    "adv_usd": 5000000,
+    "listing_date": "2018-01-15"
+  },
+  "PENNY": {
+    "price": 1.2,
+    "adv_usd": 50000000,
+    "listing_date": "2015-03-01"
+  },
+  "NEWCO": {
+    "price": 10.0,
+    "adv_usd": 30000000,
+    "listing_date": "2025-06-01"
+  },
+  "ZWART": {
+    "price": 8.0,
+    "adv_usd": 40000000,
+    "listing_date": "2024-01-01"
+  }
+}

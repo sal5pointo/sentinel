@@ -1,0 +1,28 @@
+Symbol|Security Name|Market Category|Test Issue|Financial Status|Round Lot Size|ETF|NextShares|Listing Date
+AAPL|Apple Inc. - Common Stock|Q|N|N|100|N|N|1980-12-12
+MSFT|Microsoft Corporation - Common Stock|Q|N|N|100|N|N|1986-03-13
+AMZN|Amazon.com Inc. - Common Stock|Q|N|N|100|N|N|1997-05-15
+GOOGL|Alphabet Inc. - Class A Common Stock|Q|N|N|100|N|N|2004-08-19
+META|Meta Platforms Inc. - Class A Common Stock|Q|N|N|100|N|N|2012-05-18
+NVDA|NVIDIA Corporation - Common Stock|Q|N|N|100|N|N|1999-01-22
+TSLA|Tesla Inc. - Common Stock|Q|N|N|100|N|N|2010-06-29
+AVGO|Broadcom Inc. - Common Stock|Q|N|N|100|N|N|2009-08-06
+COST|Costco Wholesale Corporation - Common Stock|Q|N|N|100|N|N|1985-12-05
+AMD|Advanced Micro Devices Inc. - Common Stock|Q|N|N|100|N|N|1972-09-27
+INTC|Intel Corporation - Common Stock|Q|N|N|100|N|N|1971-10-13
+QCOM|QUALCOMM Incorporated - Common Stock|Q|N|N|100|N|N|1991-12-13
+ADBE|Adobe Inc. - Common Stock|Q|N|N|100|N|N|1986-08-20
+NFLX|Netflix Inc. - Common Stock|Q|N|N|100|N|N|2002-05-23
+CSCO|Cisco Systems Inc. - Common Stock|Q|N|N|100|N|N|1990-02-16
+PEP|PepsiCo Inc. - Common Stock|Q|N|N|100|N|N|1972-06-12
+SBUX|Starbucks Corporation - Common Stock|Q|N|N|100|N|N|1992-06-26
+ISRG|Intuitive Surgical Inc. - Common Stock|Q|N|N|100|N|N|2000-06-13
+PANW|Palo Alto Networks Inc. - Common Stock|Q|N|N|100|N|N|2012-07-20
+CRWD|CrowdStrike Holdings Inc. - Class A Common Stock|Q|N|N|100|N|N|2019-06-12
+QQQ|Invesco QQQ Trust Series 1|G|N|N|100|Y|N|1999-03-10
+TQQQ|ProShares UltraPro QQQ|G|N|N|100|Y|N|2010-02-09
+ZWART|Zeta Warrant Test|G|N|N|100|N|N|2024-01-01
+NEWCO|Newco SPAC Units|G|N|N|100|N|N|2025-06-01
+ILLIQ|Illiquid Microcap Inc. - Common Stock|S|N|N|100|N|N|2018-01-15
+PENNY|Penny Speculative Inc. - Common Stock|S|N|N|100|N|N|2015-03-01
+File Creation Time: 1031202618:00|||||
