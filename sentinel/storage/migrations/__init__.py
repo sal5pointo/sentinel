@@ -1,11 +1,11 @@
-"""Migration runner — Phase 0 v1 + Phase 1 v2."""
+"""Migration runner — Phase 0–2."""
 
 from __future__ import annotations
 
 import sqlite3
 from datetime import UTC, datetime
 
-from sentinel.storage.models import DDL_V1, DDL_V2, SCHEMA_VERSION
+from sentinel.storage.models import DDL_V1, DDL_V2, DDL_V3, SCHEMA_VERSION
 
 
 def current_version(conn: sqlite3.Connection) -> int:
@@ -38,4 +38,12 @@ def apply_migrations(conn: sqlite3.Connection) -> int:
         )
         conn.commit()
         ver = 2
+    if ver < 3:
+        conn.executescript(DDL_V3)
+        conn.execute(
+            "INSERT OR IGNORE INTO schema_migrations(version, applied_at) VALUES (?, ?)",
+            (3, now),
+        )
+        conn.commit()
+        ver = 3
     return ver if ver >= SCHEMA_VERSION else SCHEMA_VERSION
