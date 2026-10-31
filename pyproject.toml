@@ -1,0 +1,86 @@
+[project]
+name = "sentinel"
+version = "0.1.0"
+description = "SENTINEL — personal Schwab trading engine (Phase 0 foundations)"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "Proprietary" }
+authors = [{ name = "SENTINEL Owner" }]
+dependencies = [
+    "schwab-py==1.5.1",
+    "httpx>=0.27",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.3",
+    "pyyaml>=6.0",
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "apscheduler>=3.10",
+    "exchange-calendars>=4.5",
+    "keyring>=25.0",
+    "rich>=13.7",
+    "typer>=0.12",
+    "python-dateutil>=2.9",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "ruff>=0.6",
+    "mypy>=1.11",
+    "types-PyYAML>=6.0",
+    "types-python-dateutil>=2.9",
+    "httpx>=0.27",
+]
+
+[project.scripts]
+sentinel = "sentinel.cli.main:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["sentinel"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "ruff>=0.6",
+    "mypy>=1.11",
+    "types-PyYAML>=6.0",
+    "types-python-dateutil>=2.9",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["sentinel", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+ignore = [
+    "E501",
+    "B008",  # Typer Option/Argument defaults are intentional
+]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+packages = ["sentinel"]
+exclude = ["tests/", "backtest/"]
+
+[[tool.mypy.overrides]]
+module = ["schwab.*", "authlib.*", "keyring.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+filterwarnings = ["ignore::DeprecationWarning"]
+markers = [
+    "live: tests that require live Schwab credentials (skipped by default)",
+]

@@ -1,0 +1,35 @@
+# Signal families — Phase 0 stubs; scanners ship in Phase 1
+
+enabled_families: [high_low, insider, catalysts, regime, forensics_quant]
+
+weights:                         # priors until Phase 3 backtests
+  high_low: 0.30
+  insider: 0.25
+  catalysts: 0.20
+  forensics_quant: 0.15
+  regime: 0.10                   # gate/multiplier more than score fuel
+
+confluence_min_families: 2
+
+# Deferred / cut — keep kill switches explicit
+congress:
+  enabled: false
+political_mentions:
+  enabled: false
+fda:
+  enabled: false
+altdata:
+  enabled: false
+options_flow:
+  enabled: false
+
+insider:
+  cluster_min: 3
+  cluster_days: 10
+  min_buy_usd: 100000
+  half_life_days: 20
+
+high_low:
+  near_high_pct: 5
+  volume_mult: 1.5
+  min_base_weeks: 5

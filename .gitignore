@@ -1,0 +1,46 @@
+# Secrets & local state — never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+tokens/
+*.token
+*.tokens.json
+secrets/
+.schwab/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Runtime data
+data/*.db
+data/*.db-*
+logs/*.log
+logs/*.jsonl
+*.sqlite
+*.sqlite3
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# uv / tooling
+uv.lock.bak

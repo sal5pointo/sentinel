@@ -1,0 +1,51 @@
+# SENTINEL settings — Phase 0 skeleton
+# Secrets: store in OS keychain (refs below), never commit real values.
+
+trading_enabled: false          # owner-only flip with passkey; agents NEVER flip this
+account_hash_ref: keychain:schwab_account_hash
+timezone_exchange: America/New_York
+owner_timezone: America/Phoenix
+email_to: keychain:owner_email
+email_provider: gmail_api        # or resend
+push_provider: ntfy
+max_plan_emails_per_day: 5
+broker_wrapper: schwab_py        # BrokerClient; schwabdev reserved
+
+# OAuth / Schwab developer app (owner registers; agents never automate login)
+schwab:
+  callback_url: "https://127.0.0.1:8182"
+  api_key_ref: keychain:schwab_api_key
+  app_secret_ref: keychain:schwab_app_secret
+  token_path_ref: keychain:schwab_token_blob
+  # Access ~30m; refresh expires every 7 days — see ops/auth_reminder.py
+
+llm:
+  triage_model: claude-haiku-5-5
+  memo_model: claude-opus-5-5
+  deep_model: null               # enable only if owner asks
+  daily_spend_cap_usd: 10
+  # Process boundary: sentinel-llm has Claude key only; no Schwab credentials
+  queue:
+    kind: local_filesystem
+    path: data/llm_queue
+    schema_reject_on_failure: true
+
+dashboard:
+  host: 127.0.0.1
+  port: 8787
+  read_only: true
+
+logging:
+  level: INFO
+  dir: logs
+  audit_file: logs/audit.jsonl
+
+goal:
+  target_equity_usd: 250000
+  horizons_years: [2, 3]
+  # If required CAGR ≳ 30%/yr, reports must state risk rules will NOT be loosened.
+  high_cagr_warning_pct: 30
+
+auth_reminder:
+  t_minus_hours: [48, 12]
+  sunday_evening_local: "18:00"   # owner_timezone; also schedule in America/New_York jobs
