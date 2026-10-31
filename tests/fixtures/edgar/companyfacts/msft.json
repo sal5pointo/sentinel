@@ -1,0 +1,88 @@
+{
+  "cik": 789019,
+  "entityName": "Microsoft Corp",
+  "tickers": [
+    "MSFT"
+  ],
+  "facts": {
+    "us-gaap": {
+      "Assets": {
+        "units": {
+          "USD": [
+            {
+              "end": "2024-12-31",
+              "val": 512000000000.0,
+              "form": "10-K"
+            }
+          ]
+        }
+      },
+      "Liabilities": {
+        "units": {
+          "USD": [
+            {
+              "end": "2024-12-31",
+              "val": 240000000000.0,
+              "form": "10-K"
+            }
+          ]
+        }
+      },
+      "StockholdersEquity": {
+        "units": {
+          "USD": [
+            {
+              "end": "2024-12-31",
+              "val": 272000000000.0,
+              "form": "10-K"
+            }
+          ]
+        }
+      },
+      "Revenues": {
+        "units": {
+          "USD": [
+            {
+              "end": "2024-12-31",
+              "val": 245000000000.0,
+              "form": "10-K"
+            }
+          ]
+        }
+      },
+      "NetIncomeLoss": {
+        "units": {
+          "USD": [
+            {
+              "end": "2024-12-31",
+              "val": 88000000000.0,
+              "form": "10-K"
+            }
+          ]
+        }
+      },
+      "CashAndCashEquivalentsAtCarryingValue": {
+        "units": {
+          "USD": [
+            {
+              "end": "2024-12-31",
+              "val": 18000000000.0,
+              "form": "10-K"
+            }
+          ]
+        }
+      },
+      "Goodwill": {
+        "units": {
+          "USD": [
+            {
+              "end": "2024-12-31",
+              "val": 119000000000.0,
+              "form": "10-K"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

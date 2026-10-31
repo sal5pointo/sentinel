@@ -1,7 +1,7 @@
 [project]
 name = "sentinel"
 version = "0.1.0"
-description = "SENTINEL — personal Schwab trading engine (Phase 0 foundations)"
+description = "SENTINEL — personal Schwab trading engine (Phase 1 scanners + dashboard)"
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "Proprietary" }
@@ -20,6 +20,7 @@ dependencies = [
     "rich>=13.7",
     "typer>=0.12",
     "python-dateutil>=2.9",
+    "python-multipart>=0.0.9",
 ]
 
 [project.optional-dependencies]

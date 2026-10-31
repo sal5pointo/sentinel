@@ -11,9 +11,18 @@ from sentinel.storage.migrations import current_version
 
 def test_migrations_apply(tmp_db: Path) -> None:
     db = Database(tmp_db)
-    assert current_version(db.conn) == 1
+    assert current_version(db.conn) == 2
     mode = db.conn.execute("PRAGMA journal_mode;").fetchone()[0]
     assert str(mode).lower() == "wal"
+    tables = {
+        r[0]
+        for r in db.conn.execute(
+            "SELECT name FROM sqlite_master WHERE type='table'"
+        ).fetchall()
+    }
+    assert "universe_snapshots" in tables
+    assert "signal_alerts" in tables
+    assert "source_freshness" in tables
     db.close()
 
 

@@ -1,0 +1,88 @@
+{
+  "cik": 50863,
+  "entityName": "Intel Corp",
+  "tickers": [
+    "INTC"
+  ],
+  "facts": {
+    "us-gaap": {
+      "Assets": {
+        "units": {
+          "USD": [
+            {
+              "end": "2024-12-31",
+              "val": 190000000000.0,
+              "form": "10-K"
+            }
+          ]
+        }
+      },
+      "Liabilities": {
+        "units": {
+          "USD": [
+            {
+              "end": "2024-12-31",
+              "val": 90000000000.0,
+              "form": "10-K"
+            }
+          ]
+        }
+      },
+      "StockholdersEquity": {
+        "units": {
+          "USD": [
+            {
+              "end": "2024-12-31",
+              "val": 100000000000.0,
+              "form": "10-K"
+            }
+          ]
+        }
+      },
+      "Revenues": {
+        "units": {
+          "USD": [
+            {
+              "end": "2024-12-31",
+              "val": 54000000000.0,
+              "form": "10-K"
+            }
+          ]
+        }
+      },
+      "NetIncomeLoss": {
+        "units": {
+          "USD": [
+            {
+              "end": "2024-12-31",
+              "val": -5000000000.0,
+              "form": "10-K"
+            }
+          ]
+        }
+      },
+      "CashAndCashEquivalentsAtCarryingValue": {
+        "units": {
+          "USD": [
+            {
+              "end": "2024-12-31",
+              "val": 8000000000.0,
+              "form": "10-K"
+            }
+          ]
+        }
+      },
+      "Goodwill": {
+        "units": {
+          "USD": [
+            {
+              "end": "2024-12-31",
+              "val": 30000000000.0,
+              "form": "10-K"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
