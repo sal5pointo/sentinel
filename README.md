@@ -2,7 +2,7 @@
 
 Personal Schwab trading engine: **signal → plan → one-click approval → execution**.
 
-**Phase 1 — universe U0, EDGAR parsers, MVP scanners, freshness, dashboard shell.**  
+**Phase 2 — paper plan → approve → paper execute.**  
 Live trading is **disabled**. `trading_enabled: false` stays false unless the **owner** flips config **and** confirms with a passkey (Phase 4). **Agents never flip it.**
 
 ## Hard rules
@@ -38,77 +38,69 @@ uv run sentinel auth login          # owner completes browser consent on Windows
 uv run sentinel auth status
 uv run sentinel goal-math --equity 100000
 uv run sentinel universe rebuild    # U0 PIT snapshot (fixture mode offline)
-uv run sentinel universe rebuild --month 2025-10 --json
 uv run sentinel scan                # MVP scanners on fixtures; persist alerts
+uv run sentinel plan-demo           # build + persist synthetic TradePlan + token link
 uv run sentinel freshness
-uv run sentinel dashboard           # http://127.0.0.1:8787  (read-only)
+uv run sentinel dashboard           # http://127.0.0.1:8787  (paper approval + API)
 ```
 
-### U0 universe rebuild
-
-```bash
-# Offline / CI (default): Nasdaq Trader–shaped fixtures + metrics under data/fixtures/universe
-uv run sentinel universe rebuild --month YYYY-MM --source fixture
-
-# After network vendors are allowed on the Windows host, point symbol files at
-# downloaded nasdaqlisted.txt / otherlisted.txt and refresh metrics from quotes/ADV.
-# Live ADV still needs Schwab Market Data OAuth on the always-on PC.
-```
-
-Point-in-time membership is stored in SQLite (`universe_snapshots` + `universe_members`). Rebuilds for the same `stage` + `as_of_month` replace membership in place.
-
-## What is live vs needs Schwab OAuth (Windows)
+## What works offline vs needs Windows OAuth
 
 | Capability | Status |
 |---|---|
 | Config / CI / SQLite WAL / audit log | **Live offline** |
-| Universe U0 builder + monthly PIT snapshots | **Live offline** (fixtures); live Nasdaq Trader download optional |
-| EDGAR Form 4 / 8-K / companyfacts parsers | **Live offline** on ≥5 vendored fixtures each |
-| Scanners: 52w hi/lo, Form 4 cluster, catalysts, regime | **Live offline** — deterministic on fixtures |
-| Quant forensics red-flag gate (slim) | **Live offline** on companyfacts fixtures |
-| Composite confluence scoring stubs | **Live** (alerts do not require ≥2 families; plans will) |
-| Freshness monitor (Schwab + EDGAR) | **Live** — EDGAR marks ok after fixture ingest; Schwab stays `unknown` until OAuth |
-| Dashboard v1 (Paper chip, positions/alerts/freshness, HALT stub) | **Live** read-only shell |
-| Paper broker fills on seeded quotes | **Live** (in-memory; Phase 0) |
-| Goal-math report | **Live** |
-| Schwab accounts / positions / balances / quotes / history | **Needs owner OAuth on Windows always-on PC** |
-| Live ADV / history for full U0 (~500) from Schwab | **Needs Market Data on Windows** |
-| Live EDGAR HTTP pull (vs fixtures) | Optional later; fixtures satisfy Phase 1 accept |
-| Approval / passkey / paper execute path | **Phase 2** |
-| `trading_enabled` / live orders | **Blocked** — remains false |
+| Universe U0 + EDGAR parsers + MVP scanners | **Live offline** (fixtures) |
+| Planner + sizing + funding + `TradePlan` persistence | **Live offline** |
+| Risk rules / stops / breakers / price-drift / settled-cash | **Live offline** |
+| Approval FastAPI (token links; GET never executes) | **Live offline** |
+| WebAuthn/passkey scaffolding | **Scaffold** — tests use `SENTINEL_INSECURE_WEBAUTHN_BYPASS=1` only |
+| Email / push | **Fixture stubs** (Gmail/ntfy interfaces; no network in CI) |
+| Paper executor preview→bracket→reconcile | **Live offline** (PaperBroker only) |
+| Kill switch HALT API + dashboard | **Live** |
+| Prompt-injection guard (hostile press release) | **Tested** — numeric plan fields locked |
+| REST: `/api/positions` `/api/plans` `/api/signals` `/api/mode` `/api/halt` | **Live** |
+| LLM memo worker | **Schema-only stub** — no broker access |
+| Schwab accounts / quotes / live orders | **Needs owner OAuth on Windows** |
+| `trading_enabled` / live Schwab orders | **Blocked** — remains false |
+
+## Run API locally
+
+```bash
+export TRADING_ENABLED=false
+uv run sentinel init-db
+uv run sentinel plan-demo
+uv run sentinel dashboard --host 127.0.0.1 --port 8787
+# Open confirm link printed by plan-demo (GET is safe).
+# Confirm POST requires passkey (or insecure bypass in tests only).
+```
 
 ## Config
 
 YAML under `config/`:
 
-- `settings.yaml` — `trading_enabled: false`, timezones, LLM queue path, OAuth refs
-- `risk.yaml` — buckets, breakers, pilot caps
-- `signals.yaml` — MVP families + deferred kill switches
-- `universe.yaml` — U0 filters (price, ADV, listing age, excludes)
+- `settings.yaml` — `trading_enabled: false`, approval drift %, execution mode `paper`
+- `risk.yaml` — buckets, breakers, pilot caps, cash floor
+- `signals.yaml` / `universe.yaml` — Phase 1 scanners + U0
 
-## Architecture (trimmed)
+## Architecture
 
-- **`sentinel-core`** — tokens, data ingest, signals, risk, planner, executor, approval
+- **`sentinel-core`** — tokens, data, signals, risk, planner, executor, approval, dashboard
 - **`sentinel-llm`** — Claude key only; local queue + JSON schemas; no broker access
 
-Broker wrappers: `BrokerClient` + `schwab-py==1.5.1` stub + `paper_broker`.
+## Windows always-on PC (owner tonight)
 
-## Windows always-on PC
-
-1. Money path host runs `sentinel-core` + `sentinel-llm` (localhost queue).
-2. Owner runs `uv run sentinel auth login` and completes Schwab consent in a browser there.
-3. Dashboard binds to `127.0.0.1:8787`; expose via Tailscale Funnel later — never WAN ports.
-4. Keep `TRADING_ENABLED=false` until Phase 4 + passkey.
+1. Register Schwab Trader API app; store App Key/Secret in Credential Manager.
+2. Run `uv run sentinel auth login` and complete browser consent **yourself**.
+3. Bind dashboard to `127.0.0.1:8787`; expose via Tailscale Funnel or Cloudflare Tunnel — never WAN ports.
+4. Set `SENTINEL_APPROVAL_HMAC_SECRET`; leave `SENTINEL_INSECURE_WEBAUTHN_BYPASS` unset.
+5. Keep `TRADING_ENABLED=false` until Phase 4 + passkey.
 
 ## Tests
 
-Offline tests **must pass without Schwab credentials**:
-
 ```bash
 uv run pytest -q
+# Expect 58 passed (Phase 2)
 ```
-
-Fixtures: `tests/fixtures/universe`, `tests/fixtures/edgar`, `tests/fixtures/prices` (mirrored under `data/fixtures` for CLI defaults).
 
 ## License
 

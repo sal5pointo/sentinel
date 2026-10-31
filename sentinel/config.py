@@ -51,6 +51,8 @@ class Settings(BaseModel):
     logging: dict[str, Any] = Field(default_factory=dict)
     goal: dict[str, Any] = Field(default_factory=dict)
     auth_reminder: dict[str, Any] = Field(default_factory=dict)
+    approval: dict[str, Any] = Field(default_factory=dict)
+    execution: dict[str, Any] = Field(default_factory=dict)
 
 
 def resolve_trading_enabled(settings_raw: dict[str, Any] | None = None) -> bool:

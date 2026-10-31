@@ -19,7 +19,7 @@ from sentinel.storage.db import Database
 
 app = typer.Typer(
     name="sentinel",
-    help="SENTINEL — personal Schwab trading engine (Phase 1). Live trading disabled.",
+    help="SENTINEL — personal Schwab trading engine (Phase 2 paper path). Live trading disabled.",
     no_args_is_help=True,
 )
 auth_app = typer.Typer(help="Schwab OAuth helpers (owner-only; no passwords).")
@@ -89,7 +89,7 @@ def init_db(
     path: Path | None = typer.Option(None, "--path", help="SQLite path"),
 ) -> None:
     db = Database(path)
-    console.print(f"SQLite ready (WAL): {db.path} schema=v2")
+    console.print(f"SQLite ready (WAL): {db.path} schema=v3")
     db.close()
 
 
@@ -180,13 +180,75 @@ def dashboard(
     host: str = typer.Option("127.0.0.1", "--host"),
     port: int = typer.Option(8787, "--port"),
 ) -> None:
-    """Run read-only FastAPI dashboard (Phase 1 shell)."""
+    """Run FastAPI dashboard + approval server (paper path; bind localhost)."""
     assert_trading_disabled()
     import uvicorn
 
     from sentinel.reports.dashboard.app import app as fastapi_app
 
     uvicorn.run(fastapi_app, host=host, port=port, log_level="info")
+
+
+@app.command("plan-demo")
+def plan_demo(
+    symbol: str = typer.Option("AAPL", "--symbol"),
+    entry: float = typer.Option(200.0, "--entry"),
+    atr: float = typer.Option(4.0, "--atr"),
+    equity: float = typer.Option(100_000.0, "--equity"),
+    bucket: str = typer.Option("A", "--bucket"),
+    email: bool = typer.Option(True, "--email/--no-email"),
+) -> None:
+    """Build + persist a synthetic TradePlan (offline paper demo)."""
+    assert_trading_disabled()
+    from sentinel.approval.email import get_email_sender, render_plan_email
+    from sentinel.approval.push import PushMessage, get_push_sender
+    from sentinel.approval.server import issue_plan_link
+    from sentinel.planner.plan import build_trade_plan, persist_plan
+
+    plan, verdict, funding, _sized, _stop = build_trade_plan(
+        symbol=symbol,
+        entry=entry,
+        atr=atr,
+        equity=equity,
+        settled_cash=equity * 0.4,
+        bucket=bucket,
+        families=["high_low", "insider"],
+        score=75.0,
+        evidence=["fixture"],
+        thesis="Demo plan — numbers from code.",
+    )
+    db = Database()
+    try:
+        persist_plan(db, plan)
+        link = issue_plan_link(db, plan.plan_id)
+        console.print(f"plan_id: {plan.plan_id}")
+        console.print(f"status: {plan.status}")
+        console.print(
+            f"qty: {plan.quantity} stop: {plan.stop_price} "
+            f"risk_ok={verdict.ok} fund_ok={funding.ok}"
+        )
+        console.print(f"confirm (GET never executes): {link}")
+        if email:
+            msg = render_plan_email(
+                plan_id=plan.plan_id,
+                symbol=plan.symbol,
+                side=plan.side,
+                quantity=plan.quantity,
+                entry=plan.entry_ref_price,
+                stop=plan.stop_price,
+                confirm_url=link,
+            )
+            get_email_sender(provider="fixture").send(msg)
+            get_push_sender(provider="fixture").send(
+                PushMessage(
+                    title=f"Plan {plan.symbol}",
+                    body=f"{plan.side} {plan.quantity:g}",
+                    url=link,
+                )
+            )
+            console.print("fixture email+push recorded")
+    finally:
+        db.close()
 
 
 def main() -> None:
