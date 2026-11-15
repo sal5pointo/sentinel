@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MemoResponse",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["plan_id", "thesis", "numbers"],
+  "properties": {
+    "plan_id": { "type": "string" },
+    "thesis": { "type": "string", "description": "Prose only — must not invent numeric overrides." },
+    "numbers": {
+      "type": "object",
+      "description": "Echo of core-provided numbers; worker rejects any mutation.",
+      "additionalProperties": true
+    },
+    "risks": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "sources_cited": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

@@ -33,7 +33,17 @@ llm:
 dashboard:
   host: 127.0.0.1
   port: 8787
-  read_only: true
+  read_only: true   # live Schwab writes stay off; paper path is separate
+
+approval:
+  token_ttl_seconds: 86400
+  max_price_drift_pct: 1.0
+  # insecure_webauthn_bypass: NEVER set true on Windows money host
+  # tests use env SENTINEL_INSECURE_WEBAUTHN_BYPASS=1 only
+
+execution:
+  mode: paper          # paper | live (live requires trading_enabled + passkey)
+  max_price_drift_pct: 1.0
 
 logging:
   level: INFO

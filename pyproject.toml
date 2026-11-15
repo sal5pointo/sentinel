@@ -1,7 +1,7 @@
 [project]
 name = "sentinel"
-version = "0.1.0"
-description = "SENTINEL — personal Schwab trading engine (Phase 1 scanners + dashboard)"
+version = "0.3.0"
+description = "SENTINEL — personal Schwab trading engine (Phase 2 paper plan → approve → execute)"
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "Proprietary" }

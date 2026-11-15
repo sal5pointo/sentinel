@@ -8,4 +8,5 @@ uv run sentinel status
 uv run sentinel goal-math --equity 100000
 uv run sentinel universe rebuild --month 2025-10
 uv run sentinel scan --no-persist
+uv run sentinel plan-demo --no-email
 uv run sentinel freshness

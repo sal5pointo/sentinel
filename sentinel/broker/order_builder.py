@@ -25,6 +25,43 @@ def build_market_order(
     )
 
 
+def build_bracket_order(
+    *,
+    symbol: str,
+    side: str,
+    quantity: float,
+    stop_price: float,
+    limit_price: float | None = None,
+    plan_id: str | None = None,
+) -> OrderRequest:
+    """Entry + protective stop child (GTC at broker in live; paper simulates)."""
+    entry_type = "LIMIT" if limit_price is not None else "MARKET"
+    return OrderRequest(
+        symbol=symbol.upper(),
+        side=side.upper(),
+        quantity=quantity,
+        order_type="BRACKET",
+        limit_price=limit_price,
+        stop_price=stop_price,
+        plan_id=plan_id,
+        extra={
+            "entry_type": entry_type,
+            "stop_type": "STOP",
+            "stop_duration": "GTC",
+            "children": [
+                {
+                    "role": "stop",
+                    "side": "SELL" if side.upper() == "BUY" else "BUY",
+                    "order_type": "STOP",
+                    "stop_price": stop_price,
+                    "quantity": quantity,
+                }
+            ],
+        },
+    )
+
+
+# Back-compat alias used by Phase 0 tests / docs
 def build_bracket_stub(
     *,
     symbol: str,
@@ -33,13 +70,10 @@ def build_bracket_stub(
     stop_price: float,
     plan_id: str | None = None,
 ) -> OrderRequest:
-    """Phase 0 stub — full bracket mapping to Schwab payload is Phase 2."""
-    return OrderRequest(
-        symbol=symbol.upper(),
-        side=side.upper(),
+    return build_bracket_order(
+        symbol=symbol,
+        side=side,
         quantity=quantity,
-        order_type="BRACKET_STUB",
         stop_price=stop_price,
         plan_id=plan_id,
-        extra={"todo": "Map to Schwab OCO/bracket in Phase 2"},
     )
